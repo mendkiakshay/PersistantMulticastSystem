@@ -4,8 +4,29 @@ public class Coordinator {
 
 	public static void main(String[] args) {
         //Taking command-line parameters
-        String snport = args[0];
-        int nport = Integer.parseInt(snport);
+		int nport = 0, td = 0;
+
+		//Taking command-line parameters
+		try {
+			Scanner inputFile = new Scanner(new File(args[0]));
+			String input = inputFile.nextLine();
+
+			Scanner myscanner = new Scanner(input);
+
+			if(myscanner.hasNext()){
+				nport = Integer.parseInt(myscanner.next());            	
+			}
+			
+			input = inputFile.nextLine();
+			myscanner = new Scanner(input);
+			
+			if(myscanner.hasNext()){
+				td = Integer.parseInt(myscanner.next());
+			}
+
+		} catch (FileNotFoundException ex) {
+			System.out.println("No File Found!");
+		}
 
         // create object of ServerProcess that executes the command
         System.out.println("Server Started");
@@ -19,7 +40,7 @@ public class Coordinator {
                 CoordinatorThread coordinatorthread = new CoordinatorThread(nserSocket);
                 //starting the thread
                 coordinatorthread.start();
-								System.out.println("Thread started");
+				System.out.println("Thread started");
             }
         }
 				catch (Exception ex) {

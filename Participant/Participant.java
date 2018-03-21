@@ -15,22 +15,47 @@ public class Participant {
     public static void main(String[] args) throws Exception
 		{
 
-        String machineName = args[0];
-    		String nportNo = args[1];
-    		// String tportNo = args[2];
-    		int nportNumber = Integer.parseInt(nportNo);
-    		// int tportNumber = Integer.parseInt(tportNo);
+        int participantId = 0;
+    	String messageLogFile = null, coordinatorport = null;
+    	try {
+			Scanner inputFile = new Scanner(new File(args[0]));
+			String input = inputFile.nextLine();
+
+			Scanner myscanner = new Scanner(input);
+
+			if(myscanner.hasNext()){
+				participantId = Integer.parseInt(myscanner.next());            	
+			}
+			
+			input = inputFile.nextLine();
+			myscanner = new Scanner(input);
+			
+			if(myscanner.hasNext()){
+				messageLogFile = myscanner.next().toString();
+			}
+			
+			input = inputFile.nextLine();
+			myscanner = new Scanner(input);
+			
+			if(myscanner.hasNext()){
+				coordinatorport = myscanner.next().toString();
+			}
+
+		} catch (FileNotFoundException ex) {
+			System.out.println("No File Found!");
+		}
 
         //configure normal port
-        Socket nclientSocket = new Socket(machineName, nportNumber);
+        /*Socket nclientSocket = new Socket(machineName, nportNumber);
         ParticipantThread participantthread = new ParticipantThread(nclientSocket,"nport");
         participantthread.start();
+*/
 
         while (true)
 				{
             Thread.sleep(510);
             String command = takeInput();
-						participantthread.sendDataToServer(command);
+			participantthread.sendDataToServer(command);
         }
     }
 
