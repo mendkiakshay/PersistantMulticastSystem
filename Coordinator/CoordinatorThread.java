@@ -28,4 +28,33 @@ public class CoordinatorThread extends Thread {
 		}
 	}
 
+	public void run()
+	{
+		try
+		{
+			// while (input.available() == 0)
+			// {
+			// 	try
+			// 	{
+			// 		Thread.sleep(1);
+			// 	}
+			// 	catch (InterruptedException e)
+			// 	{
+			// 		e.printStackTrace();
+			// 	}
+			// }
+			// read the command
+			while(true)
+			{
+				System.out.println("reading input");
+				inputString = input.readUTF();
+				System.out.println(inputString);
+			}
+		}
+		catch (Exception e)
+		{
+			System.out.println("exception:  "+e.getMessage());
+		}
+	}
+
 }

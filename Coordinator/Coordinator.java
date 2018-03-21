@@ -19,6 +19,7 @@ public class Coordinator {
                 CoordinatorThread coordinatorthread = new CoordinatorThread(nserSocket);
                 //starting the thread
                 coordinatorthread.start();
+								System.out.println("Thread started");
             }
         }
 				catch (Exception ex) {

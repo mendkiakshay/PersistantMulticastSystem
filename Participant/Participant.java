@@ -12,7 +12,8 @@ public class Participant {
     }
 
     @SuppressWarnings("SleepWhileInLoop")
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) throws Exception
+		{
 
         String machineName = args[0];
     		String nportNo = args[1];
@@ -25,12 +26,11 @@ public class Participant {
         ParticipantThread participantthread = new ParticipantThread(nclientSocket,"nport");
         participantthread.start();
 
-        while (true) {
+        while (true)
+				{
             Thread.sleep(510);
             String command = takeInput();
-
-
-
+						participantthread.sendDataToServer(command);
         }
     }
 
