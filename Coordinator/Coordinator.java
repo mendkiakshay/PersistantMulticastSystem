@@ -1,4 +1,6 @@
 import java.net.ServerSocket;
+import java.util.*;
+import java.io.*;
 
 public class Coordinator {
 
@@ -14,12 +16,12 @@ public class Coordinator {
 			Scanner myscanner = new Scanner(input);
 
 			if(myscanner.hasNext()){
-				nport = Integer.parseInt(myscanner.next());            	
+				nport = Integer.parseInt(myscanner.next());
 			}
-			
+
 			input = inputFile.nextLine();
 			myscanner = new Scanner(input);
-			
+
 			if(myscanner.hasNext()){
 				td = Integer.parseInt(myscanner.next());
 			}

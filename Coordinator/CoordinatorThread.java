@@ -46,6 +46,17 @@ public class CoordinatorThread extends Thread {
 			// read the command
 			while(true)
 			{
+				while (input.available() == 0)
+				{
+					try
+					{
+						Thread.sleep(1);
+					}
+					catch (InterruptedException e)
+					{
+						e.printStackTrace();
+					}
+				}
 				System.out.println("reading input");
 				inputString = input.readUTF();
 				System.out.println(inputString);
