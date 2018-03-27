@@ -4,18 +4,21 @@ import java.io.*;
 
 public class Coordinator {
 
-	public static void main(String[] args) {
+	public static void main(String[] args)
+	{
 		//Taking command-line parameters
 		int nport = 0, td = 0;
 
 		//Taking command-line parameters
-		try {
+		try
+		{
 			Scanner inputFile = new Scanner(new File(args[0]));
 			String input = inputFile.nextLine();
 
 			Scanner myscanner = new Scanner(input);
 
-			if(myscanner.hasNext()){
+			if(myscanner.hasNext())
+			{
 				nport = Integer.parseInt(myscanner.next());
 			}
 
@@ -33,7 +36,8 @@ public class Coordinator {
 		// create object of ServerProcess that executes the command
 		System.out.println("Server Started");
 
-		try {
+		try
+		{
 			// Create nport and tport sockets
 			ServerSocket nserSocket = new ServerSocket(nport);
 			while (true)

@@ -11,7 +11,7 @@ import java.nio.file.Path;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.*;
-
+import java.net.*;
 public class CoordinatorProcess
 {
 
@@ -32,9 +32,20 @@ public class CoordinatorProcess
 	// Method to register participants
 	public Boolean register(int pid, String ipAddress, int port)
 	{
-		GroupParticipants participant = new GroupParticipants(pid, ipAddress, port);
-		listParticipants.add(participant);
-		return true;
+		try
+		{
+			Socket socket = new Socket(ipAddress,port);
+			DataInputStream in = new DataInputStream(socket.getInputStream());
+			DataOutputStream op = new DataOutputStream(socket.getOutputStream());
+			GroupParticipants participant = new GroupParticipants(pid, ipAddress, port,socket,in,op);
+			listParticipants.add(participant);
+			return true;
+		}
+		catch(Exception ex)
+		{
+			System.out.println(ex.getMessage());
+			return false;
+		}
 	}
 
 	public Boolean deregister(int pid)
