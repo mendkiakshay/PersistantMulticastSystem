@@ -11,7 +11,7 @@ public class Participant
 
 	public static String takeInput() throws Exception
 	{
-		System.out.print("mytftp> ");
+		System.out.print("Participant> ");
 		InputStreamReader reader = new InputStreamReader(System.in);
 		BufferedReader buffer = new BufferedReader(reader);
 		return buffer.readLine();
@@ -81,13 +81,13 @@ public class Participant
 			{
 				int portB =Integer.parseInt(command.split(" ")[1]);
 				ServerSocket serSocketB = new ServerSocket(portB);
-				ParticipantThread myparticipant = new ParticipantThread(serSocketB, portB, command);
+				ParticipantThread myparticipant = new ParticipantThread(serSocketB, portB, command+" "+participantId+" "+participantIp);
 				myparticipant.messageLogFileName = messageLogFile;
 				myparticipant.start();
-				myparticipant.sendDataToServer(command+"#"+participantId+"#"+participantIp);
+				myparticipant.sendDataToServer(command+" "+participantId+" "+participantIp);
 			}
 			else
-				participantthread.sendDataToServer(command);
+				participantthread.sendDataToServer(command+" "+participantId+" "+participantIp);
 		}
 	}
 
