@@ -11,6 +11,7 @@ public class CoordinatorThread extends Thread {
 	DataInputStream input;
 	DataOutputStream output;
 	String inputString = null;
+	CoordinatorProcess mycommand = new CoordinatorProcess();
 
 	CoordinatorThread(ServerSocket sersocket)
 	{
@@ -18,7 +19,7 @@ public class CoordinatorThread extends Thread {
 		try
 		{
 			this.socket = sersocket.accept();
-			System.out.println("Client connection arrived");
+			System.out.println("Participant connection arrived");
 			this.input = new DataInputStream(socket.getInputStream());
 			this.output = new DataOutputStream(socket.getOutputStream());
 		}
@@ -27,6 +28,12 @@ public class CoordinatorThread extends Thread {
 			Logger.getLogger(CoordinatorThread.class.getName()).log(Level.SEVERE, null, ex);
 		}
 	}
+	
+	//Method to split the input command
+		public String[] splitCommand(String command)
+		{
+			return command.split(" ");
+		}
 
 	public void run()
 	{
@@ -49,6 +56,12 @@ public class CoordinatorThread extends Thread {
 				System.out.println("reading input");
 				inputString = input.readUTF();
 				System.out.println(inputString);
+				
+				if (splitCommand(inputString)[0].equalsIgnoreCase("register")) {
+					if(mycommand.register(Integer.parseInt(splitCommand(inputString)[2]), splitCommand(inputString)[3], Integer.parseInt(splitCommand(inputString)[1])))
+						output.writeUTF("registered!");
+				}
+				
 			}
 		}
 		catch (Exception e)
