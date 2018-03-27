@@ -32,17 +32,6 @@ public class CoordinatorThread extends Thread {
 	{
 		try
 		{
-			// while (input.available() == 0)
-			// {
-			// 	try
-			// 	{
-			// 		Thread.sleep(1);
-			// 	}
-			// 	catch (InterruptedException e)
-			// 	{
-			// 		e.printStackTrace();
-			// 	}
-			// }
 			// read the command
 			while(true)
 			{

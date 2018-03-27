@@ -1,5 +1,7 @@
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.net.InetAddress;
+import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.*;
 import java.io.*;
@@ -9,20 +11,20 @@ public class Participant
 
 	public static String takeInput() throws Exception
 	{
-        System.out.print("mytftp> ");
-        InputStreamReader reader = new InputStreamReader(System.in);
-        BufferedReader buffer = new BufferedReader(reader);
-        return buffer.readLine();
-    }
+		System.out.print("mytftp> ");
+		InputStreamReader reader = new InputStreamReader(System.in);
+		BufferedReader buffer = new BufferedReader(reader);
+		return buffer.readLine();
+	}
 
-    @SuppressWarnings("SleepWhileInLoop")
-    public static void main(String[] args) throws Exception
-		{
-
-			Socket nclientSocket=null;
-      int participantId = 0, port = 0;
-    	String messageLogFile = null, ip=null;
-    	try {
+	@SuppressWarnings("SleepWhileInLoop")
+	public static void main(String[] args) throws Exception
+	{
+		InetAddress localhost = InetAddress.getLocalHost();
+		Socket nclientSocket=null;
+		int participantId = 0, port = 0;
+		String messageLogFile = null, coordinatorip=null, participantIp = localhost.getHostAddress();
+		try {
 			Scanner inputFile = new Scanner(new File(args[0]));
 			String input = inputFile.nextLine();
 
@@ -38,6 +40,7 @@ public class Participant
 
 			if(myscanner.hasNext()){
 				messageLogFile = myscanner.next().toString();
+
 			}
 
 			input = inputFile.nextLine();
@@ -45,8 +48,8 @@ public class Participant
 
 
 			if(myscanner.hasNext()){
-				ip = myscanner.next().toString();
-				System.out.println(ip);
+				coordinatorip = myscanner.next().toString();
+				System.out.println(coordinatorip);
 				// coordinatorip = ipandPort.split(" ")[0];
 				// coordinatorport = ipandPort.split(" ")[1];
 			}
@@ -62,27 +65,30 @@ public class Participant
 			System.out.println("No File Found!");
 		}
 
-				// System.out.println("participantId is: "+participantId);
-				// System.out.println("messageLogFile is: "+messageLogFile);
-				//configure normal port
-				nclientSocket = new Socket(ip, port);
-        ParticipantThread participantthread = new ParticipantThread(nclientSocket,"nport");
-        participantthread.start();
+		// System.out.println("participantId is: "+participantId);
+		// System.out.println("messageLogFile is: "+messageLogFile);
+		//configure normal port
+		nclientSocket = new Socket(coordinatorip, port);
+		ParticipantThread participantthread = new ParticipantThread(nclientSocket);
+		participantthread.start();
 
-				//taking input
-        while (true)
-				{
-            Thread.sleep(510);
-            String command = takeInput();
-						if(command.contains("register"))
-						{
-							int portB =Integer.parseInt(command.split(" ")[1]);
-							ServerSocket serSocketB = new ServerSocket(portB);
-							ParticipantThread participantthread = new ParticipantThread(serSocketB,portB);
-			        participantthread.start();
-						}
-						participantthread.sendDataToServer(command);
-        }
-    }
+		//taking input
+		while (true)
+		{
+			Thread.sleep(510);
+			String command = takeInput();
+			if(command.contains("register"))
+			{
+				int portB =Integer.parseInt(command.split(" ")[1]);
+				ServerSocket serSocketB = new ServerSocket(portB);
+				ParticipantThread myparticipant = new ParticipantThread(serSocketB, portB, command);
+				myparticipant.messageLogFileName = messageLogFile;
+				myparticipant.start();
+				myparticipant.sendDataToServer(command+"#"+participantId+"#"+participantIp);
+			}
+			else
+				participantthread.sendDataToServer(command);
+		}
+	}
 
 }
