@@ -84,10 +84,10 @@ public class Participant
 				ParticipantThread myparticipant = new ParticipantThread(serSocketB, portB, command+" "+participantId+" "+participantIp);
 				myparticipant.messageLogFileName = messageLogFile;
 				myparticipant.start();
-				myparticipant.sendDataToServer(command+" "+participantId+" "+participantIp);
+				//myparticipant.sendDataToServer(command+" "+participantId+" "+participantIp);
 			}
-			else
-				participantthread.sendDataToServer(command+" "+participantId+" "+participantIp);
+			
+			participantthread.sendDataToServer(command+" "+participantId+" "+participantIp);
 		}
 	}
 

@@ -53,7 +53,7 @@ public class ParticipantThread extends Thread
 
 	public void sendDataToServer(String mycommand)
 	{
-		if(mycommand.equalsIgnoreCase("register")){
+		/*if(mycommand.contains("register")){
 
 			try {
 				System.out.println("Inside sendDataToServer Method; command is: "+this.command);
@@ -78,6 +78,19 @@ public class ParticipantThread extends Thread
 			{
 				e.printStackTrace();
 			}
+		}*/
+		
+		try
+		{
+			//use appropriate ports
+			this.command = mycommand;
+			System.out.println("Inside sendDataToServer Method; command is: "+this.command);
+			output.writeUTF(command);
+			output.flush();
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
 		}
 
 	}	
@@ -110,6 +123,7 @@ public class ParticipantThread extends Thread
 					binput = new DataInputStream(this.bsocket.getInputStream());
 					boutput = new DataOutputStream(this.bsocket.getOutputStream());
 					receivemessage(binput, boutput);
+					
 				}
 
 				if(command!="")
