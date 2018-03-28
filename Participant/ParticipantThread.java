@@ -1,4 +1,3 @@
-
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -25,9 +24,6 @@ public class ParticipantThread extends Thread
 			// this.command = mycommand;
 			this.bserSocket = bserSocket;
 			this.threadType = "B";
-			//this.bsocket = this.bserSocket.accept();
-			/*binput = new DataInputStream(this.bsocket.getInputStream());
-			boutput = new DataOutputStream(this.bsocket.getOutputStream());*/
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -49,35 +45,8 @@ public class ParticipantThread extends Thread
 		}
 	}
 
-	public void sendDataToServer(String mycommand)
+	public void sendDataToCoordinator(String mycommand)
 	{
-		/*if(mycommand.contains("register")){
-
-			try {
-				System.out.println("Inside sendDataToServer Method; command is: "+this.command);
-				boutput.writeUTF(command);
-				boutput.flush();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-
-		}
-		else{
-			try
-			{
-				//use appropriate ports
-				this.command = mycommand;
-				System.out.println("Inside sendDataToServer Method; command is: "+this.command);
-				output.writeUTF(command);
-				output.flush();
-			}
-			catch (IOException e)
-			{
-				e.printStackTrace();
-			}
-		}*/
-
 		try
 		{
 			//use appropriate ports
@@ -99,7 +68,6 @@ public class ParticipantThread extends Thread
 		try
 		{
 			while (shouldrun) {
-
 				if(input!=null)
 				{
 					while ((input.available() == 0))
@@ -126,9 +94,6 @@ public class ParticipantThread extends Thread
 
 				if(command!="")
 				{
-					// for any other commands than get put quit; simply send the
-					// command to the Server
-
 					String inputString = "";
 					if (shouldrun)
 					{
@@ -137,7 +102,6 @@ public class ParticipantThread extends Thread
 					System.out.println(inputString);
 					this.command="";
 				}
-				// this.command="";
 			}
 		}
 		catch (Exception e)
@@ -150,11 +114,19 @@ public class ParticipantThread extends Thread
 	public void receivemessage(DataInputStream binput, DataOutputStream boutput){
 		System.out.println("Inside receivemessage");
 		try {
-			// FileOutputStream fileoutput = new FileOutputStream(messageLogFileName);
-
-			BufferedWriter fileoutput = new BufferedWriter(new FileWriter(messageLogFileName));
-	 		fileoutput.write(binput.readUTF());
-			fileoutput.close();
+			
+			File mymessagefile = new File(messageLogFileName);
+			
+			if(mymessagefile.exists()){
+				BufferedWriter fileoutput = new BufferedWriter(new FileWriter(mymessagefile.getAbsoluteFile(), true));
+				fileoutput.write(binput.readUTF());
+				fileoutput.close();
+			}
+			else{
+				BufferedWriter fileoutput = new BufferedWriter(new FileWriter(mymessagefile));
+				fileoutput.write(binput.readUTF());
+				fileoutput.close();
+			}
 			//System.out.println("ID IS:"+input.readUTF());
 			System.out.println("Multicast message is received and copied to messageLogFile");
 

@@ -8,7 +8,6 @@ import java.io.*;
 
 public class Participant
 {
-
 	public static String takeInput() throws Exception
 	{
 		System.out.print("Participant> ");
@@ -84,10 +83,10 @@ public class Participant
 				ParticipantThread myparticipant = new ParticipantThread(serSocketB, portB, command+" "+participantId+" "+participantIp);
 				myparticipant.messageLogFileName = messageLogFile;
 				myparticipant.start();
-				//myparticipant.sendDataToServer(command+" "+participantId+" "+participantIp);
+				//myparticipant.sendDataToCoordinator(command+" "+participantId+" "+participantIp);
 			}
 			
-			participantthread.sendDataToServer(command+" "+participantId+" "+participantIp);
+			participantthread.sendDataToCoordinator(command+" "+participantId+" "+participantIp);
 		}
 	}
 

@@ -52,8 +52,21 @@ public class CoordinatorProcess
 	public Boolean deregister(int pid)
 	{
 		GroupParticipants participantToDelete = findParticipantById(pid);
-		listParticipants.remove(participantToDelete);
-		return true;
+		if(participantToDelete != null){
+			try {
+				participantToDelete.outputStream.close();
+				participantToDelete.inputStream.close();
+				participantToDelete.socket.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			listParticipants.remove(participantToDelete);
+			return true;
+		}
+		else
+			return false;
+		
 	}
 	public Boolean disconnect(int pid, String ipAddress, int port)
 	{

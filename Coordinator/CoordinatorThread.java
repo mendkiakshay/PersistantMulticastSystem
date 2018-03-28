@@ -62,8 +62,14 @@ public class CoordinatorThread extends Thread {
 					if(mycommand.register(Integer.parseInt(splitCommand(inputString)[2]), splitCommand(inputString)[3], Integer.parseInt(splitCommand(inputString)[1])))
 						{
 							System.out.println("logging register");
-							output.writeUTF("register Acknowledgement");
+							output.writeUTF("register is received at Coordinator");
 						}
+				}
+				
+				if (splitCommand(inputString)[0].equalsIgnoreCase("deregister")){
+					output.writeUTF("deregister is received at Coordinator");
+					boolean result = mycommand.deregister(Integer.parseInt(splitCommand(inputString)[2]));
+					System.out.println("Deregistration complete");
 				}
 
 			}
