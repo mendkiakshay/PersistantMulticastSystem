@@ -39,6 +39,7 @@ public class CoordinatorProcess
 			DataOutputStream op = new DataOutputStream(socket.getOutputStream());
 			GroupParticipants participant = new GroupParticipants(pid, ipAddress, port,socket,in,op);
 			listParticipants.add(participant);
+			// participant.outputStream.writeUTF("HI");
 			return true;
 		}
 		catch(Exception ex)

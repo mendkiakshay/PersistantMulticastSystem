@@ -20,7 +20,7 @@ public class GroupParticipants
 	public Boolean isDisconnected;
 	public Socket socket;
 	public DataInputStream inputStream;
-	public DataOutputStream outpuStream;
+	public DataOutputStream outputStream;
 	public GroupParticipants(int id, String ip, int port, Socket socket,DataInputStream input, DataOutputStream output)
 	{
 		this.id=id;
@@ -29,6 +29,6 @@ public class GroupParticipants
 		this.isDisconnected=false;
 		this.socket = socket;
 		this.inputStream = input;
-		this.outpuStream = output;
+		this.outputStream = output;
 	}
 }

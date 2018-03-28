@@ -1,10 +1,5 @@
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
+
+import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.logging.Level;
@@ -21,13 +16,15 @@ public class ParticipantThread extends Thread
 	boolean shouldrun = true;
 	String port; //"threadA" or "threadB"
 	String messageLogFileName;
+	String threadType;
 
 	ParticipantThread(ServerSocket bserSocket ,int portB, String mycommand)
 	{
 
 		try {
-			this.command = mycommand;
+			// this.command = mycommand;
 			this.bserSocket = bserSocket;
+			this.threadType = "B";
 			//this.bsocket = this.bserSocket.accept();
 			/*binput = new DataInputStream(this.bsocket.getInputStream());
 			boutput = new DataOutputStream(this.bsocket.getOutputStream());*/
@@ -40,10 +37,11 @@ public class ParticipantThread extends Thread
 	ParticipantThread(Socket socket)
 	{
 		try
-		{			
+		{
 			this.socket = socket;
 			input = new DataInputStream(socket.getInputStream());
 			output = new DataOutputStream(socket.getOutputStream());
+			this.threadType="A";
 		}
 		catch (IOException ex)
 		{
@@ -79,7 +77,7 @@ public class ParticipantThread extends Thread
 				e.printStackTrace();
 			}
 		}*/
-		
+
 		try
 		{
 			//use appropriate ports
@@ -93,7 +91,7 @@ public class ParticipantThread extends Thread
 			e.printStackTrace();
 		}
 
-	}	
+	}
 
 	//Run method for multithreading
 	public void run()
@@ -118,12 +116,12 @@ public class ParticipantThread extends Thread
 					}
 				}
 
-				if(command.contains("register")){
+				if(this.threadType.equals("B"))
+				{
 					this.bsocket = this.bserSocket.accept();
 					binput = new DataInputStream(this.bsocket.getInputStream());
 					boutput = new DataOutputStream(this.bsocket.getOutputStream());
 					receivemessage(binput, boutput);
-					
 				}
 
 				if(command!="")
@@ -152,15 +150,10 @@ public class ParticipantThread extends Thread
 	public void receivemessage(DataInputStream binput, DataOutputStream boutput){
 		System.out.println("Inside receivemessage");
 		try {
-			FileOutputStream fileoutput = new FileOutputStream(messageLogFileName);
+			// FileOutputStream fileoutput = new FileOutputStream(messageLogFileName);
 
-			int characters;
-			do {
-				characters = Integer.parseInt(binput.readUTF());
-				fileoutput.write(characters);    			
-
-			} while (characters != -1);
-
+			BufferedWriter fileoutput = new BufferedWriter(new FileWriter(messageLogFileName));
+	 		fileoutput.write(binput.readUTF());
 			fileoutput.close();
 			//System.out.println("ID IS:"+input.readUTF());
 			System.out.println("Multicast message is received and copied to messageLogFile");

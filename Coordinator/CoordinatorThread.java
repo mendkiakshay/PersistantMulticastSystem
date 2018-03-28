@@ -28,7 +28,7 @@ public class CoordinatorThread extends Thread {
 			Logger.getLogger(CoordinatorThread.class.getName()).log(Level.SEVERE, null, ex);
 		}
 	}
-	
+
 	//Method to split the input command
 		public String[] splitCommand(String command)
 		{
@@ -56,12 +56,16 @@ public class CoordinatorThread extends Thread {
 				System.out.println("reading input");
 				inputString = input.readUTF();
 				System.out.println(inputString);
-				
-				if (splitCommand(inputString)[0].equalsIgnoreCase("register")) {
+
+				if (splitCommand(inputString)[0].equalsIgnoreCase("register"))
+				{
 					if(mycommand.register(Integer.parseInt(splitCommand(inputString)[2]), splitCommand(inputString)[3], Integer.parseInt(splitCommand(inputString)[1])))
-						output.writeUTF("registered!");
+						{
+							System.out.println("logging register");
+							output.writeUTF("register Acknowledgement");
+						}
 				}
-				
+
 			}
 		}
 		catch (Exception e)
