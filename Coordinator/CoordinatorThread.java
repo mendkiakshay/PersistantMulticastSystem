@@ -71,6 +71,11 @@ public class CoordinatorThread extends Thread {
 					boolean result = mycommand.deregister(Integer.parseInt(splitCommand(inputString)[2]));
 					System.out.println("Deregistration complete");
 				}
+				
+				if (splitCommand(inputString)[0].equalsIgnoreCase("msend")){
+					String msendMessage = splitCommand(inputString)[1];
+					mycommand.msend(msendMessage);
+				}
 
 			}
 		}

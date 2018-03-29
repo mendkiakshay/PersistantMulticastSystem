@@ -84,13 +84,21 @@ public class ParticipantThread extends Thread
 					}
 				}
 
-				if(this.threadType.equals("B"))
-				{
-					this.bsocket = this.bserSocket.accept();
-					binput = new DataInputStream(this.bsocket.getInputStream());
-					boutput = new DataOutputStream(this.bsocket.getOutputStream());
-					receivemessage(binput, boutput);
-				}
+				 if(this.threadType.equals("B")) 
+	                { 
+	                            if(this.bsocket==null) 
+	                            { 
+	                                this.bsocket = this.bserSocket.accept(); 
+	                                binput = new DataInputStream(this.bsocket.getInputStream()); 
+	                                boutput = new DataOutputStream(this.bsocket.getOutputStream()); 
+	                            } 
+	                            else 
+	                            { 
+	                                 if(binput.available()!=0) 
+	                                    receivemessage(binput, boutput); 
+	                            } 
+	                }
+	 
 
 				if(command!="")
 				{

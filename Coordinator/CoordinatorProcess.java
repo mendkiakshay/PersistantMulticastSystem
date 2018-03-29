@@ -80,7 +80,23 @@ public class CoordinatorProcess
 
 	public Boolean msend(String message)
 	{
-		return true;
+		try
+		{
+			int i=0;
+			for(GroupParticipants g : listParticipants)
+			{
+				System.out.println("sending message: "+i);
+				System.out.println(g.id+" "+g.port+" "+g.ip);				
+				g.outputStream.writeUTF(message);
+				i++;
+			}
+			return true;
+		}
+		catch(Exception ex)
+		{
+			System.out.println(ex.getMessage());
+			return false;
+		}
 	}
 
 }
