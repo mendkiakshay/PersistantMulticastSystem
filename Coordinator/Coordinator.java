@@ -43,7 +43,7 @@ public class Coordinator {
 			while (true)
 			{
 				//Creating thread object for nport
-				CoordinatorThread coordinatorthread = new CoordinatorThread(nserSocket);
+				CoordinatorThread coordinatorthread = new CoordinatorThread(nserSocket,td);
 				//starting the thread
 				coordinatorthread.start();
 				System.out.println("Thread started");

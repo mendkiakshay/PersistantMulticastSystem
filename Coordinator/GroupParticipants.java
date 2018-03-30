@@ -12,6 +12,12 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.*;
 import java.net.*;
+
+class StringDateTime
+{
+	String message;
+	int timeStamp;
+}
 public class GroupParticipants
 {
 	public int id;
@@ -21,6 +27,9 @@ public class GroupParticipants
 	public Socket socket;
 	public DataInputStream inputStream;
 	public DataOutputStream outputStream;
+	public List<StringDateTime> savedMessage;
+	public Date disconnectTime;
+	
 	public GroupParticipants(int id, String ip, int port, Socket socket,DataInputStream input, DataOutputStream output)
 	{
 		this.id=id;
@@ -30,5 +39,15 @@ public class GroupParticipants
 		this.socket = socket;
 		this.inputStream = input;
 		this.outputStream = output;
+		this.savedMessage = new ArrayList<StringDateTime>();
+	}
+	
+	public void AddStringDateTime(GroupParticipants g, String message, int l)
+	{
+		StringDateTime s = new StringDateTime();
+		s.message=message;
+		s.timeStamp=l;
+		g.savedMessage.add(s);
 	}
 }
+

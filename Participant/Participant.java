@@ -74,9 +74,9 @@ public class Participant
 		//taking input
 		while (true)
 		{
-			Thread.sleep(510);
+			Thread.sleep(513);
 			String command = takeInput();
-			if(command.contains("register"))
+			if(command.split(" ")[0].equalsIgnoreCase("register") || command.split(" ")[0].equalsIgnoreCase("reconnect"))
 			{
 				int portB =Integer.parseInt(command.split(" ")[1]);
 				ServerSocket serSocketB = new ServerSocket(portB);

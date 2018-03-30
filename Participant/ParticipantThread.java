@@ -7,7 +7,7 @@ import java.util.logging.Logger;
 public class ParticipantThread extends Thread
 {
 
-	Socket socket,bsocket;
+	Socket socket,bsocket = null;
 	ServerSocket bserSocket;
 	DataInputStream input,binput;
 	DataOutputStream output,boutput;

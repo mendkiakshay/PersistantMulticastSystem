@@ -12,8 +12,9 @@ public class CoordinatorThread extends Thread {
 	DataOutputStream output;
 	String inputString = null;
 	CoordinatorProcess mycommand = new CoordinatorProcess();
+	int td=0;
 
-	CoordinatorThread(ServerSocket sersocket)
+	CoordinatorThread(ServerSocket sersocket, int td)
 	{
 		//Initialize the socket, DataInputStream, DataOutputStream for object
 		try
@@ -22,6 +23,7 @@ public class CoordinatorThread extends Thread {
 			System.out.println("Participant connection arrived");
 			this.input = new DataInputStream(socket.getInputStream());
 			this.output = new DataOutputStream(socket.getOutputStream());
+			this.td=td;
 		}
 		catch (IOException ex)
 		{
@@ -65,17 +67,30 @@ public class CoordinatorThread extends Thread {
 							output.writeUTF("register is received at Coordinator");
 						}
 				}
-				
-				if (splitCommand(inputString)[0].equalsIgnoreCase("deregister")){
-					output.writeUTF("deregister is received at Coordinator");
-					boolean result = mycommand.deregister(Integer.parseInt(splitCommand(inputString)[2]));
-					System.out.println("Deregistration complete");
+
+				if (splitCommand(inputString)[0].equalsIgnoreCase("deregister"))
+				{
+					System.out.println("Deregistration started");
+					boolean result = mycommand.deregister(Integer.parseInt(splitCommand(inputString)[1]));
+					output.writeUTF("deregister is complete");
+
 				}
-				
-				if (splitCommand(inputString)[0].equalsIgnoreCase("msend")){
+
+				if (splitCommand(inputString)[0].equalsIgnoreCase("msend"))
+				{
 					String msendMessage = splitCommand(inputString)[1];
 					mycommand.msend(msendMessage);
 				}
+				if(splitCommand(inputString)[0].equalsIgnoreCase("disconnect"))
+				{
+					mycommand.disconnect(Integer.parseInt(splitCommand(inputString)[1]));
+				}
+				if(splitCommand(inputString)[0].equalsIgnoreCase("reconnect"))
+				{
+					mycommand.reconnect(Integer.parseInt(splitCommand(inputString)[2]), splitCommand(inputString)[3], Integer.parseInt(splitCommand(inputString)[1]),td);
+					//mycommand.reconnect();
+				}
+
 
 			}
 		}
